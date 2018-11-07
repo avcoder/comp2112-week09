@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css?family=Reenie+Beanie" rel="stylesheet">
+    <style>
+        body {
+            background: url('https://i.pinimg.com/originals/57/27/6e/57276e4768e8a0863b7a61dfa941c953.jpg');
+            font-family: 'Reenie Beanie', cursive;
+            font-size: 16px;
+        }
+
+        main {
+            margin-left: 10rem;
+            margin-top: 7rem;
+        }
+
+        article p {
+            font-size: 2rem;
+            padding: 0;
+            margin: 0;
+            margin-top: 39px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <h1>My Essay</h1>
+        <article id="essay"></article>
+    </main>
+
+
+    <script>
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const recognition = new SpeechRecognition();
+
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.addEventListener("result", e => {
+            const transcript = e.results[0][0].transcript;
+            console.log(transcript);
+            analyzeSpeech(transcript);
+            essay.insertAdjacentHTML('beforeEnd', `<p>${transcript}</p>`)
+        });
+        recognition.addEventListener("end", recognition.start);
+        recognition.start();
+
+
+        function analyzeSpeech(transcript) {
+            let url = '';
+            if (transcript.startsWith('open')) {
+                url = transcript.replace(/open/i, '').trim();
+                openInNewTab(url);
+            }
+        }
+
+        function openInNewTab(url) {
+            // console.log(url)
+            const adrs = `https://${url}`;
+            // console.log(adrs)
+            // window.open(adrs, '_blank');
+            window.open(adrs, '_blank');
+        }
+    </script>
+</body>
+
+</html>
